@@ -1,10 +1,12 @@
 package com.example.jorge.owapi;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -81,6 +83,28 @@ public class MainActivity extends AppCompatActivity implements IView{
                 }
             }
         });
+
+        //quitar el teclado cuando se selecciona un item
+
+        heroesAuto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
+
+        countryAuto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
+
+
 
         presenter = new Presenter(Model.getInstance(getApplicationContext()), this);
 
