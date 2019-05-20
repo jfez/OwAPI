@@ -138,4 +138,47 @@ public class Model {
             }
         }.execute();
     }
+
+    Comparator<Country> c = new Comparator<Country>() {
+        @Override
+        public int compare(Country country, Country input) {
+            return country.name.compareTo(input.name);
+        }
+    };
+
+
+
+    public boolean compareCountryBool(String s, Country[] countriesArray) {
+        Country input = new Country(s,-1);
+        int found = Arrays.binarySearch(countriesArray, input, c);
+        return found >= 0;
+    }
+
+    public int compareCountryInt(String s, Country[] countriesArray) {
+        Country input = new Country(s,-1);
+        int found = Arrays.binarySearch(countriesArray, input, c);
+        return found;
+    }
+
+
+    Comparator<Hero> h = new Comparator<Hero>() {
+        @Override
+        public int compare(Hero hero, Hero input) {
+            return hero.name.compareTo(input.name);
+        }
+    };
+
+
+
+    public boolean compareHeroBool(String s, Hero[] heroesArray) {
+        Hero input = new Hero(s,"",-1,-1,-1);
+        int found = Arrays.binarySearch(heroesArray, input, h);
+        return found >= 0;
+    }
+
+    public int compareHeroInt(String s, Hero[] heroesArray) {
+        Hero input = new Hero(s,"",-1,-1,-1);
+        int found = Arrays.binarySearch(heroesArray, input, h);
+        return found;
+    }
 }
