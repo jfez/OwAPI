@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -97,13 +96,30 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
 
     }
 
+    //Habrá que hacer 2 adapters diferentes, uno para los héroes y otro para el perfil
+
     @Override
-    public void showHero(List<HeroSearch> response) {
+    public void showHero(HeroSearch response) {
+
+        //ALGO COMO ESTO
+
+        //Tenemos un adapter de Hero
+        //Pero en lugar de pasarle una lista, le pasamos directamente el objeto HeroSearch response
+        /*GasPriceAdapter adapter = new GasPriceAdapter(PriceActivity.this, lista);
+        listView.setAdapter(adapter);
+
+        //Esto en concreto no tiene sentido porque nuestra lista nunca estará vacía
+        if (lista.size()== 0){
+            listView.setEmptyView(findViewById(R.id.empty_list_item));
+        }
+
+        listView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);*/
 
     }
 
     @Override
-    public void showProfile(List<ProfileSearch> response) {
+    public void showProfile(ProfileSearch response) {
 
     }
 

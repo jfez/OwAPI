@@ -29,5 +29,9 @@ public enum Platform {
         return label;
     }
 
+    public String getCode(){
+        return code;
+    }
+
 
 }

@@ -17,10 +17,10 @@ public class PresenterSearch {
 
         if (hero == null){
 
-            modelSearch.getProfile(platform, country, battletag, new Response.Listener<List<ProfileSearch>>(){
+            modelSearch.getProfile(platform, country, battletag, new Response.Listener<ProfileSearch>(){
 
                 @Override
-                public void onResponse(List<ProfileSearch> response) {
+                public void onResponse(ProfileSearch response) {
                     onProfileisAvailable(response);
 
                 }
@@ -36,10 +36,10 @@ public class PresenterSearch {
         }
 
         else {
-            modelSearch.getHero(platform, country, battletag, hero, new Response.Listener<List<HeroSearch>> (){
+            modelSearch.getHero(platform, country, battletag, hero, new Response.Listener<HeroSearch> (){
 
                 @Override
-                public void onResponse(List<HeroSearch> response) {
+                public void onResponse(HeroSearch response) {
                     onHeroisAvailable(response);
 
                 }
@@ -57,13 +57,19 @@ public class PresenterSearch {
 
     }
 
-    private void onHeroisAvailable(List<HeroSearch> response) {
+    //solo devolverá 1 objeto HeroSearch o ProfileSearch, no una lista
+    //si ese objeto devuelto, es null, será que el response.length() es 1 y devolvemos null indicando que el jugador no existe
+    //habrá que comprobar la response aquí
+    //si la response no es null, show normal y corriente
+    //si la response es null, showPlayerNotFound
+
+    private void onHeroisAvailable(HeroSearch response) {
 
         viewSearch.showHero(response);
 
     }
 
-    private void onProfileisAvailable(List<ProfileSearch> response) {
+    private void onProfileisAvailable(ProfileSearch response) {
 
         viewSearch.showProfile(response);
 
