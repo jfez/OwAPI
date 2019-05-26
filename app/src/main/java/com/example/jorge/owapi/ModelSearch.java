@@ -93,6 +93,8 @@ public class ModelSearch extends DialogFragment{
 
     //mirar el gasPrices
     //si response.length() es 1, significa que el jugador no existe
+    //OJO PORQUE SI DEVUELVE NULL, PARECE QUE LO TOMA COMO NETWORK ERROR, HAY QUE INVESTIGAR ESTO
+    //TAL VEZ HAY QUE CREAR UN PROFILE/HERO QUE TENGA UN PARÁMETRO ESPECIAL PARA EN EL PRESENTER DETECTAR SI ES UN JUGADOR VÁLIDO O NO
     //si no es 1, el jugador existe; ahora hay que comprobar si tiene el perfil abierto o cerrado
     //lo primer que miramos entonces es JSONArray jsonArray = response.getJSONArray("private");
     //si es true, no buscamos nada más, solo mostramos el diálogo
@@ -116,9 +118,9 @@ public class ModelSearch extends DialogFragment{
                 return profile;
             }
 
-            String profilePrivate = (String) response.get("private");
+            boolean profilePrivate = (boolean) response.get("private");
 
-            if (profilePrivate == "true"){
+            if (profilePrivate){
                 //diálogo y tal vez inicializar profile para que no piense que el jugador no existe
             }
 
@@ -216,9 +218,9 @@ public class ModelSearch extends DialogFragment{
                 return hero;
             }
 
-            String profilePrivate = (String) response.get("private");
+            boolean profilePrivate = (boolean) response.get("private");
 
-            if (profilePrivate == "true"){
+            if (profilePrivate){
                 //diálogo y tal vez inicializar hero para que no piense que el jugador no existe
             }
 

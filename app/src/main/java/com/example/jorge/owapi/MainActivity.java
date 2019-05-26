@@ -193,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements IView{
 
         countryAuto.setText("");
         heroesAuto.setText("");
+        battletagEdit.setText("");
+        changeProfileHeroesToggle.setChecked(false);
     }
 
     @Override
