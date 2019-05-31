@@ -108,13 +108,15 @@ public class ModelSearch extends DialogFragment{
     private ProfileSearch parseJSONProfile(JSONObject response) {
 
         ProfileSearch profile = null;
-        JSONArray jsonArray;
-        JSONObject jsonObject;
+
+        JSONObject jsonObject1;
+        JSONObject jsonObject2;
 
         try {
             int index = response.length();
 
             if (index == 1){
+                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, false, false);
                 return profile;
             }
 
@@ -122,32 +124,31 @@ public class ModelSearch extends DialogFragment{
 
             if (profilePrivate){
                 //diálogo y tal vez inicializar profile para que no piense que el jugador no existe
+                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, true, true);
             }
 
             else{
                 //buscar los parámetros y crear profile
+
+                //jsonArray = response.getJSONArray("quickPlayStats");
+                jsonObject1 = response.getJSONObject("quickPlayStats"); //quickPlayStats
+                jsonObject2 = jsonObject1.getJSONObject("awards"); //awards
+
+                int gamesWon = (int) response.get("gamesWon");
+                String iconURL = (String) response.get("icon");
+                int level = (int) response.get("level");
+                int rating = (int) response.get("rating");
+
+
+
+                int cards = (int) jsonObject2.get("cards");
+                int medals = (int) jsonObject2.get("medals");
+                int goldenMedals = (int) jsonObject2.get("medalsGold");
+
+
+                profile = new ProfileSearch(gamesWon, iconURL, level, rating, cards, medals, goldenMedals, false, true);
+
             }
-
-            jsonArray = response.getJSONArray("quickPlayStats");
-
-            jsonObject = jsonArray.getJSONObject(0); //awards
-
-
-
-            /*String rotulo = price.getString("Rótulo");
-            String direccion = price.getString("Dirección");
-            String precioProducto = price.getString("PrecioProducto");
-            String latitud = price.getString("Latitud");
-            String longitud = price.getString("Longitud (WGS84)");
-
-            Double numLatitud = parseDouble(latitud);
-            Double numLongitud = parseDouble(longitud);*/
-
-            //profile = new ProfileSearch(rotulo, direccion, precioProducto, numLatitud, numLongitud);
-
-
-
-
             return profile;
         }
         catch (JSONException e) {

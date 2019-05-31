@@ -71,7 +71,22 @@ public class PresenterSearch {
 
     private void onProfileisAvailable(ProfileSearch response) {
 
-        viewSearch.showProfile(response);
+        if(!response.existsProfile){
+            viewSearch.showPlayerNotFound();
+        }
+
+        else {
+
+            if(response.privateProfile){
+                viewSearch.showPrivateProfile();
+            }
+
+            else{
+                viewSearch.showProfile(response);
+            }
+        }
+
+
 
     }
 

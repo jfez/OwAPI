@@ -6,5 +6,9 @@ interface IViewSearch {
     void showProfile(ProfileSearch response);
 
     void showError(String message);
+
+    void showPlayerNotFound();
+
+    void showPrivateProfile();
 }
 

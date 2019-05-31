@@ -1,6 +1,8 @@
 package com.example.jorge.owapi;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SearchActivity extends AppCompatActivity implements IViewSearch  {
@@ -121,12 +124,64 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
     @Override
     public void showProfile(ProfileSearch response) {
 
+        listaPerfil.add(response);
+
+
+        ProfileAdapter adapter = new ProfileAdapter(SearchActivity.this, listaPerfil);
+        listView.setAdapter(adapter);
+
+        if (listaPerfil.size()== 0){
+            listView.setEmptyView(findViewById(R.id.empty_list_item));
+        }
+
+        listView.setVisibility(View.VISIBLE);
+        listView.setEnabled(false);
+        progressBar.setVisibility(View.GONE);
+
+
     }
 
     @Override
     public void showError(String message) {
         Toast.makeText(getApplicationContext(),"NETWORK ERROR", Toast.LENGTH_LONG).show();
         finish();
+
+    }
+
+    @Override
+    public void showPlayerNotFound() {
+        Toast.makeText(getApplicationContext(),"PLAYER NOT FOUND", Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    @Override
+    public void showPrivateProfile() {
+        progressBar.setVisibility(View.GONE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("PRIVATE PROFILE")
+                .setMessage("Go to Overwatch to make it public.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("TUTORIAL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Uri url = Uri.parse("https://dotesports.com/overwatch/news/ow-public-private-profile-25347");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, url);
+                        startActivity(intent);
+
+                        finish();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
 
     }
 }
