@@ -17,10 +17,12 @@ public class ProfileSearch implements Parcelable {
     public int goldenMedals;
     public boolean privateProfile;
     public boolean existsProfile;
+    public boolean implemented;
+    public String profileUrl;
 
 
 
-    public ProfileSearch(int gamesWon, String iconURL, int level, int rating, int cards, int medals, int goldenMedals, boolean privateProfile, boolean existsProfile) {
+    public ProfileSearch(int gamesWon, String iconURL, int level, int rating, int cards, int medals, int goldenMedals, boolean privateProfile, boolean existsProfile, boolean implemented, String profileUrl) {
         this.gamesWon = gamesWon;
         this.iconURL = iconURL;
         this.level = level;
@@ -30,6 +32,8 @@ public class ProfileSearch implements Parcelable {
         this.goldenMedals = goldenMedals;
         this.privateProfile = privateProfile;
         this.existsProfile = existsProfile;
+        this.implemented = implemented;
+        this.profileUrl = profileUrl;
     }
 
     protected ProfileSearch(Parcel in) {
@@ -40,6 +44,10 @@ public class ProfileSearch implements Parcelable {
         cards = in.readInt();
         medals = in.readInt();
         goldenMedals = in.readInt();
+        privateProfile = in.readByte() != 0;
+        existsProfile = in.readByte() != 0;
+        implemented = in.readByte() != 0;
+        profileUrl = in.readString();
     }
 
     @Override
@@ -51,6 +59,10 @@ public class ProfileSearch implements Parcelable {
         dest.writeInt(cards);
         dest.writeInt(medals);
         dest.writeInt(goldenMedals);
+        dest.writeByte((byte) (privateProfile ? 1 : 0));
+        dest.writeByte((byte) (existsProfile ? 1 : 0));
+        dest.writeByte((byte) (implemented ? 1 : 0));
+        dest.writeString(profileUrl);
     }
 
     @Override

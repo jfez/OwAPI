@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements IView{
     protected void onResume() {
         super.onResume();
 
+        platformSpin.setSelection(0);
         countryAuto.setText("");
         heroesAuto.setText("");
         battletagEdit.setText("");

@@ -159,8 +159,8 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
         progressBar.setVisibility(View.GONE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("PRIVATE PROFILE")
-                .setMessage("Go to Overwatch to make it public.")
+        builder.setTitle("PROFILES ARE PRIVATE BY DEFAULT")
+                .setMessage("Modify this setting in Overwatch under Options-Social")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -183,5 +183,11 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
         dialog.show();
 
 
+    }
+
+    @Override
+    public void showNotImplemented() {
+        Toast.makeText(getApplicationContext()," PS4 & XBOX ARE NOT IMPLEMENTED BY THE API", Toast.LENGTH_LONG).show();
+        finish();
     }
 }

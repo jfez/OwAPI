@@ -54,7 +54,7 @@ public class ProfileAdapter extends ArrayAdapter {
         goldenMedalsTextView = view.findViewById(R.id.goldenMedalsInt);
 
 
-        ProfileSearch profileSearch = (ProfileSearch) getItem(position);
+        final ProfileSearch profileSearch = (ProfileSearch) getItem(position);
 
         DownloadImageTask downloadImageTask = new DownloadImageTask(imagenPerfil);
 
@@ -70,7 +70,7 @@ public class ProfileAdapter extends ArrayAdapter {
         imagenPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("http://www.google.com");
+                Uri uri = Uri.parse(profileSearch.profileUrl);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 getContext().startActivity(intent);
             }

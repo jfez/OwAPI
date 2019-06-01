@@ -20,14 +20,16 @@ import androidx.fragment.app.DialogFragment;
 
 @SuppressLint("ValidFragment")
 
-public class ModelSearch extends DialogFragment{
+public class ModelSearch{
 
     //"https://ow-api.com/v1/stats/pc/us/XxaviI-2930/profile";
     //"https://ow-api.com/v1/stats/pc/us/XxaviI-2930/heroes/soldier76";
+    //"https://playoverwatch.com/en-us/career/pc/XxaviI-2930";
     private String urlProfile1 = "https://ow-api.com/v1/stats/";
     private String urlProfile2 = "/profile";
     private String urlHeroes1 = "https://ow-api.com/v1/stats/";
     private String urlHeroes2 = "/heroes/";
+    private String urlProfileWeb = "https://playoverwatch.com/en-us/career/";
     private RequestQueue queue;
     private static ModelSearch instance;
 
@@ -47,7 +49,7 @@ public class ModelSearch extends DialogFragment{
     }
 
 
-    public void getProfile(Platform platform, Country country, String battletag, final Response.Listener<ProfileSearch> listener, final Response.ErrorListener errorListener) {
+    public void getProfile(final Platform platform, Country country, String battletag, final Response.Listener<ProfileSearch> listener, final Response.ErrorListener errorListener) {
 
         String regionOW = "";
 
@@ -67,11 +69,13 @@ public class ModelSearch extends DialogFragment{
 
         String newBattletag = battletag.replace('#','-');
 
+        final String url = urlProfileWeb + platform.getCode() + "/" + newBattletag;
+
         //la url de búsqueda
         JsonRequest request = new JsonObjectRequest(Request.Method.GET, urlProfile1 + platform.getCode() + "/" + regionOW + "/" + newBattletag + urlProfile2, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                profileSearch = parseJSONProfile(response);
+                profileSearch = parseJSONProfile(response, url);
 
                 if (profileSearch != null){
                     listener.onResponse(profileSearch);
@@ -105,7 +109,7 @@ public class ModelSearch extends DialogFragment{
 
     //el layout tendrá lugar para las stats (text views) y también para la imagen (del perfil o del heroe) ImageView
 
-    private ProfileSearch parseJSONProfile(JSONObject response) {
+    private ProfileSearch parseJSONProfile(JSONObject response, String url) {
 
         ProfileSearch profile = null;
 
@@ -115,8 +119,9 @@ public class ModelSearch extends DialogFragment{
         try {
             int index = response.length();
 
+
             if (index == 1){
-                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, false, false);
+                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, false, false, true, null);
                 return profile;
             }
 
@@ -124,7 +129,7 @@ public class ModelSearch extends DialogFragment{
 
             if (profilePrivate){
                 //diálogo y tal vez inicializar profile para que no piense que el jugador no existe
-                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, true, true);
+                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, true, true, true, null);
             }
 
             else{
@@ -146,7 +151,7 @@ public class ModelSearch extends DialogFragment{
                 int goldenMedals = (int) jsonObject2.get("medalsGold");
 
 
-                profile = new ProfileSearch(gamesWon, iconURL, level, rating, cards, medals, goldenMedals, false, true);
+                profile = new ProfileSearch(gamesWon, iconURL, level, rating, cards, medals, goldenMedals, false, true, true, url);
 
             }
             return profile;
@@ -158,7 +163,7 @@ public class ModelSearch extends DialogFragment{
 
 
 
-    public void getHero(Platform platform, Country country, String battletag, Hero hero, final Response.Listener<HeroSearch> listener, final Response.ErrorListener errorListener) {
+    public void getHero(Platform platform, Country country, String battletag, final Hero hero, final Response.Listener<HeroSearch> listener, final Response.ErrorListener errorListener) {
         String regionOW = "";
 
         switch (country.region){
@@ -179,14 +184,34 @@ public class ModelSearch extends DialogFragment{
 
         //CAMBIAR NOMBRE DEL HÉROE DONDE HAGA FALTA SI NO COINCIDEN ENTRE PÁGINAS y también tener en cuenta mayúsculas y minúsculas
 
+        String heroName = hero.name;
+        String heroNameLowerCase = heroName.toLowerCase();
+        String heroNameLowerCaseModified = heroNameLowerCase;
+
+        switch (heroNameLowerCase){
+            case "dva":
+                heroNameLowerCaseModified = "dVa";
+                break;
+
+            case "soldier-76":
+                heroNameLowerCaseModified = "soldier76";
+
+        }
+
+        final String url = urlProfileWeb + platform.getCode() + "/" + newBattletag;
+
+        final String finalHeroNameLowerCaseModified = heroNameLowerCaseModified;
+
+
         //la url de búsqueda
-        JsonRequest request = new JsonObjectRequest(Request.Method.GET, urlHeroes1 + platform.getCode() + "/" + regionOW + "/" + newBattletag + urlHeroes2 + hero.toString(), null, new Response.Listener<JSONObject>() {
+
+        JsonRequest request = new JsonObjectRequest(Request.Method.GET, urlHeroes1 + platform.getCode() + "/" + regionOW + "/" + newBattletag + urlHeroes2 + heroNameLowerCase, null, new Response.Listener<JSONObject>() {
 
             //PASARLE AL parseJSONHero los stats de la base de datos de héroes (rol, skins, emotes y sprays)
             //también pasarle el nombre ya modificado para la URL (puesto con minúsculas o guiones o lo que haga falta)
             @Override
             public void onResponse(JSONObject response) {
-                heroSearch = parseJSONHero(response);
+                heroSearch = parseJSONHero(response, hero.role, hero.numberSkins, url, finalHeroNameLowerCaseModified);
 
                 if (heroSearch != null){
                     listener.onResponse(heroSearch);
@@ -205,52 +230,67 @@ public class ModelSearch extends DialogFragment{
         queue.add(request);
     }
 
-    //el HeroSearch tendrá tambien el rol, emotes, sprays y skins
-    private HeroSearch parseJSONHero(JSONObject response) {
+    //el HeroSearch tendrá tambien el rol y skins
+    private HeroSearch parseJSONHero(JSONObject response, String role, int numberSkins, String url, String heroNameLowerCaseModified) {
 
         HeroSearch hero = null;
-        JSONArray jsonArray;
-        JSONObject jsonObject;
+
+        JSONObject jsonObject1;
+        JSONObject jsonObject2;
+        JSONObject jsonObject3;
+        JSONObject jsonObject4;
+        JSONObject jsonObject5;
+        JSONObject jsonObject6;
+        JSONObject jsonObject7;
+        JSONObject jsonObject8;
+        JSONObject jsonObject9;
 
         try {
+
             int index = response.length();
 
             if (index == 1){
+                hero = new HeroSearch(null, null, -1, -1, -1, -1, -1, -1,
+                        null, false, false, true, null);
                 return hero;
             }
 
             boolean profilePrivate = (boolean) response.get("private");
 
             if (profilePrivate){
-                //diálogo y tal vez inicializar hero para que no piense que el jugador no existe
+                //diálogo y tal vez inicializar profile para que no piense que el jugador no existe
+                hero = new HeroSearch(null, null, -1, -1, -1, -1, -1, -1,
+                        null, true, true, true, null);
             }
 
             else{
-                //buscar los parámetros y crear hero
+                //buscar los parámetros y crear profile
+
+                //jsonArray = response.getJSONArray("quickPlayStats");
+                jsonObject1 = response.getJSONObject("quickPlayStats"); //quickPlayStats
+                //jsonObject2 = jsonObject1.getJSONObject("awards"); //awards dentro de quickPlayStats
+                jsonObject3 = jsonObject1.getJSONObject("careerStats"); //careerStats dentro de quickPlayStats
+                jsonObject4 = jsonObject3.getJSONObject(heroNameLowerCaseModified); //el personaje, dentro de careerStats
+                jsonObject5 = jsonObject4.getJSONObject("combat"); //combat, dentro del personaje
+                //jsonObject6 = jsonObject4.getJSONObject("best"); //best, dentro del personaje
+                jsonObject7 = jsonObject4.getJSONObject("average"); //average, dentro del personaje
+                jsonObject8 = jsonObject4.getJSONObject("game"); //game, dentro del personaje
+                jsonObject9 = jsonObject4.getJSONObject("matchAwards"); //matchAwards, dentro del personaje
+
+
+                int eliminations = (int) jsonObject5.get("eliminations");
+                int eliminationsPF = (int) jsonObject7.get("eliminationsPerLife");
+                float damageAVG = (float) jsonObject7.get("allDamageDoneAvgPer10Min");
+                int gamesWon = (int) jsonObject8.get("gamesWon");
+                int goldenMedals = (int) jsonObject9.get("medalsGold");
+                String timePlayed = (String) jsonObject8.get("timePlayed");
+
+
+
+                hero = new HeroSearch(null, role, numberSkins, eliminations, eliminationsPF, damageAVG, gamesWon, goldenMedals,
+                        timePlayed, false, true, true, url);
+
             }
-
-            //Buscamos lo que toque del JSON
-
-            //jsonArray = response.getJSONArray("quickPlayStats");
-
-            //jsonObject = jsonArray.getJSONObject(0); //awards
-
-
-
-            /*String rotulo = price.getString("Rótulo");
-            String direccion = price.getString("Dirección");
-            String precioProducto = price.getString("PrecioProducto");
-            String latitud = price.getString("Latitud");
-            String longitud = price.getString("Longitud (WGS84)");
-
-            Double numLatitud = parseDouble(latitud);
-            Double numLongitud = parseDouble(longitud);*/
-
-            //hero = new HeroSearch(rotulo, direccion, precioProducto, numLatitud, numLongitud);
-
-
-
-
             return hero;
         }
         catch (JSONException e) {

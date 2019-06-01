@@ -17,6 +17,11 @@ public class PresenterSearch {
 
         if (hero == null){
 
+            if (platform == Platform.PS4 || platform == Platform.XBOX){
+                viewSearch.showNotImplemented();
+                return;
+            }
+
             modelSearch.getProfile(platform, country, battletag, new Response.Listener<ProfileSearch>(){
 
                 @Override
@@ -36,6 +41,11 @@ public class PresenterSearch {
         }
 
         else {
+            if (platform == Platform.PS4 || platform == Platform.XBOX){
+                viewSearch.showNotImplemented();
+                return;
+            }
+
             modelSearch.getHero(platform, country, battletag, hero, new Response.Listener<HeroSearch> (){
 
                 @Override
@@ -70,7 +80,6 @@ public class PresenterSearch {
     }
 
     private void onProfileisAvailable(ProfileSearch response) {
-
         if(!response.existsProfile){
             viewSearch.showPlayerNotFound();
         }
@@ -85,8 +94,6 @@ public class PresenterSearch {
                 viewSearch.showProfile(response);
             }
         }
-
-
 
     }
 

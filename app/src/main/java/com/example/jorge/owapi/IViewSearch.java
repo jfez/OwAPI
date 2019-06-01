@@ -10,5 +10,7 @@ interface IViewSearch {
     void showPlayerNotFound();
 
     void showPrivateProfile();
+
+    void showNotImplemented();
 }
 
