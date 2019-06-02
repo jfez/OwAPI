@@ -104,20 +104,19 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
     @Override
     public void showHero(HeroSearch response) {
 
-        //ALGO COMO ESTO
+        listaHeroe.add(response);
 
-        //Tenemos un adapter de Hero
-        //Pero en lugar de pasarle una lista, le pasamos directamente el objeto HeroSearch response
-        /*GasPriceAdapter adapter = new GasPriceAdapter(PriceActivity.this, lista);
+        HeroAdapter adapter = new HeroAdapter(SearchActivity.this, listaHeroe);
+
         listView.setAdapter(adapter);
 
-        //Esto en concreto no tiene sentido porque nuestra lista nunca estará vacía
-        if (lista.size()== 0){
+        if (listaHeroe.size()== 0){
             listView.setEmptyView(findViewById(R.id.empty_list_item));
         }
 
         listView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);*/
+        listView.setEnabled(false);
+        progressBar.setVisibility(View.GONE);
 
     }
 
@@ -168,11 +167,11 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
                         startActivity(intent);
                     }
                 });
-                builder.setNegativeButton("TUTORIAL", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("WHERE?", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Uri url = Uri.parse("https://dotesports.com/overwatch/news/ow-public-private-profile-25347");
+                        Uri url = Uri.parse("https://fotos.subefotos.com/83cd55df301804890b0c58cdade2ad18o.png");
                         Intent intent = new Intent(Intent.ACTION_VIEW, url);
                         startActivity(intent);
 

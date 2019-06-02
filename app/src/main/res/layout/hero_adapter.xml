@@ -9,6 +9,7 @@
         android:id="@+id/rolText"
         android:layout_width="207dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="310dp"
@@ -18,7 +19,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.189"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenPerfil"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/rolTextUser"
@@ -28,12 +31,12 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="136dp"
         android:layout_marginRight="136dp"
-        android:textSize="30sp"
+        android:textSize="28sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/rolText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/gamesWonText"
-        tools:text="Tank" />
+        tools:text="Damage" />
 
     <TextView
         android:id="@+id/skinsText"

@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -242,6 +243,12 @@ public class MainActivity extends AppCompatActivity implements IView{
 
 
         startActivity(intent);
+
+    }
+
+    @Override
+    public void noBattletag() {
+        Toast.makeText(getApplicationContext(),"PLEASE, INSERT A BATTLETAG", Toast.LENGTH_LONG).show();
 
     }
 }

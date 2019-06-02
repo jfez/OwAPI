@@ -9,8 +9,8 @@ public class HeroSearch implements Parcelable {
     public String role;
     public int numberSkins;
     public int eliminations;
-    public int eliminationsPF;
-    public float damageAVG;
+    public double eliminationsPF;
+    public double damageAVG;
     public int gamesWon;
     public int goldenMedals;
     public String timePlayed;
@@ -19,7 +19,7 @@ public class HeroSearch implements Parcelable {
     public boolean implemented;
     public String heroUrl;
 
-    public HeroSearch(String portraitURL, String role, int numberSkins, int eliminations, int eliminationsPF, float damageAVG, int gamesWon, int goldenMedals, String timePlayed,
+    public HeroSearch(String portraitURL, String role, int numberSkins, int eliminations, double eliminationsPF, double damageAVG, int gamesWon, int goldenMedals, String timePlayed,
                       boolean privateProfile, boolean existsProfile, boolean implemented, String heroUrl) {
         this.portraitURL = portraitURL;
         this.role = role;
@@ -43,8 +43,8 @@ public class HeroSearch implements Parcelable {
         role = in.readString();
         numberSkins = in.readInt();
         eliminations = in.readInt();
-        eliminationsPF = in.readInt();
-        damageAVG = in.readFloat();
+        eliminationsPF = in.readDouble();
+        damageAVG = in.readDouble();
         gamesWon = in.readInt();
         goldenMedals = in.readInt();
         timePlayed = in.readString();
@@ -52,6 +52,28 @@ public class HeroSearch implements Parcelable {
         existsProfile = in.readByte() != 0;
         implemented = in.readByte() != 0;
         heroUrl = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(portraitURL);
+        dest.writeString(role);
+        dest.writeInt(numberSkins);
+        dest.writeInt(eliminations);
+        dest.writeDouble(eliminationsPF);
+        dest.writeDouble(damageAVG);
+        dest.writeInt(gamesWon);
+        dest.writeInt(goldenMedals);
+        dest.writeString(timePlayed);
+        dest.writeByte((byte) (privateProfile ? 1 : 0));
+        dest.writeByte((byte) (existsProfile ? 1 : 0));
+        dest.writeByte((byte) (implemented ? 1 : 0));
+        dest.writeString(heroUrl);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<HeroSearch> CREATOR = new Creator<HeroSearch>() {
@@ -65,26 +87,4 @@ public class HeroSearch implements Parcelable {
             return new HeroSearch[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(portraitURL);
-        dest.writeString(role);
-        dest.writeInt(numberSkins);
-        dest.writeInt(eliminations);
-        dest.writeInt(eliminationsPF);
-        dest.writeFloat(damageAVG);
-        dest.writeInt(gamesWon);
-        dest.writeInt(goldenMedals);
-        dest.writeString(timePlayed);
-        dest.writeByte((byte) (privateProfile ? 1 : 0));
-        dest.writeByte((byte) (existsProfile ? 1 : 0));
-        dest.writeByte((byte) (implemented ? 1 : 0));
-        dest.writeString(heroUrl);
-    }
 }

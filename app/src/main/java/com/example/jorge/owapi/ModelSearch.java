@@ -69,7 +69,7 @@ public class ModelSearch{
 
         String newBattletag = battletag.replace('#','-');
 
-        final String url = urlProfileWeb + platform.getCode() + "/" + newBattletag;
+        final String url = urlProfileWeb + platform.getCode() + "/" + newBattletag; //url de la página oficial de Blizzard del perfil
 
         //la url de búsqueda
         JsonRequest request = new JsonObjectRequest(Request.Method.GET, urlProfile1 + platform.getCode() + "/" + regionOW + "/" + newBattletag + urlProfile2, null, new Response.Listener<JSONObject>() {
@@ -185,7 +185,7 @@ public class ModelSearch{
         //CAMBIAR NOMBRE DEL HÉROE DONDE HAGA FALTA SI NO COINCIDEN ENTRE PÁGINAS y también tener en cuenta mayúsculas y minúsculas
 
         String heroName = hero.name;
-        String heroNameLowerCase = heroName.toLowerCase();
+        final String heroNameLowerCase = heroName.toLowerCase();
         String heroNameLowerCaseModified = heroNameLowerCase;
 
         switch (heroNameLowerCase){
@@ -195,23 +195,30 @@ public class ModelSearch{
 
             case "soldier-76":
                 heroNameLowerCaseModified = "soldier76";
+                break;
+
+            case "wrecking-ball":
+                heroNameLowerCaseModified = "wreckingball";
+                break;
 
         }
 
-        final String url = urlProfileWeb + platform.getCode() + "/" + newBattletag;
+        //https://playoverwatch.com/en-gb/heroes/widowmaker
+
+        final String url = "https://playoverwatch.com/en-gb/heroes/" + heroNameLowerCase;
 
         final String finalHeroNameLowerCaseModified = heroNameLowerCaseModified;
 
 
         //la url de búsqueda
 
-        JsonRequest request = new JsonObjectRequest(Request.Method.GET, urlHeroes1 + platform.getCode() + "/" + regionOW + "/" + newBattletag + urlHeroes2 + heroNameLowerCase, null, new Response.Listener<JSONObject>() {
+        JsonRequest request = new JsonObjectRequest(Request.Method.GET, urlHeroes1 + platform.getCode() + "/" + regionOW + "/" + newBattletag + urlHeroes2 + heroNameLowerCaseModified, null, new Response.Listener<JSONObject>() {
 
             //PASARLE AL parseJSONHero los stats de la base de datos de héroes (rol, skins, emotes y sprays)
             //también pasarle el nombre ya modificado para la URL (puesto con minúsculas o guiones o lo que haga falta)
             @Override
             public void onResponse(JSONObject response) {
-                heroSearch = parseJSONHero(response, hero.role, hero.numberSkins, url, finalHeroNameLowerCaseModified);
+                heroSearch = parseJSONHero(response, hero.role, hero.numberSkins, url, heroNameLowerCase, finalHeroNameLowerCaseModified);
 
                 if (heroSearch != null){
                     listener.onResponse(heroSearch);
@@ -231,7 +238,7 @@ public class ModelSearch{
     }
 
     //el HeroSearch tendrá tambien el rol y skins
-    private HeroSearch parseJSONHero(JSONObject response, String role, int numberSkins, String url, String heroNameLowerCaseModified) {
+    private HeroSearch parseJSONHero(JSONObject response, String role, int numberSkins, String url, String heroNameLoweCase, String heroNameLowerCaseModified) {
 
         HeroSearch hero = null;
 
@@ -266,29 +273,41 @@ public class ModelSearch{
             else{
                 //buscar los parámetros y crear profile
 
+                //https://d1u1mce87gyfbn.cloudfront.net/hero/zenyatta/icon-portrait.png
+                String portraitURL = "https://d1u1mce87gyfbn.cloudfront.net/hero/" + heroNameLoweCase + "/icon-portrait.png";
+
                 //jsonArray = response.getJSONArray("quickPlayStats");
                 jsonObject1 = response.getJSONObject("quickPlayStats"); //quickPlayStats
                 //jsonObject2 = jsonObject1.getJSONObject("awards"); //awards dentro de quickPlayStats
                 jsonObject3 = jsonObject1.getJSONObject("careerStats"); //careerStats dentro de quickPlayStats
-                jsonObject4 = jsonObject3.getJSONObject(heroNameLowerCaseModified); //el personaje, dentro de careerStats
-                jsonObject5 = jsonObject4.getJSONObject("combat"); //combat, dentro del personaje
-                //jsonObject6 = jsonObject4.getJSONObject("best"); //best, dentro del personaje
-                jsonObject7 = jsonObject4.getJSONObject("average"); //average, dentro del personaje
-                jsonObject8 = jsonObject4.getJSONObject("game"); //game, dentro del personaje
-                jsonObject9 = jsonObject4.getJSONObject("matchAwards"); //matchAwards, dentro del personaje
 
 
-                int eliminations = (int) jsonObject5.get("eliminations");
-                int eliminationsPF = (int) jsonObject7.get("eliminationsPerLife");
-                float damageAVG = (float) jsonObject7.get("allDamageDoneAvgPer10Min");
-                int gamesWon = (int) jsonObject8.get("gamesWon");
-                int goldenMedals = (int) jsonObject9.get("medalsGold");
-                String timePlayed = (String) jsonObject8.get("timePlayed");
+                //CASO EN EL QUE EL USUARIO NO HAYA JUGADO NUNCA CON ESE CAMPEÓN
 
+                if (jsonObject3.length() == 0){
+                    hero = new HeroSearch(portraitURL, role, numberSkins, 0, 0, 0, 0, 0,
+                            "00:00", false, true, true, url);
+                }
 
+                else{
+                    jsonObject4 = jsonObject3.getJSONObject(heroNameLowerCaseModified); //el personaje, dentro de careerStats
+                    jsonObject5 = jsonObject4.getJSONObject("combat"); //combat, dentro del personaje
+                    //jsonObject6 = jsonObject4.getJSONObject("best"); //best, dentro del personaje
+                    jsonObject7 = jsonObject4.getJSONObject("average"); //average, dentro del personaje
+                    jsonObject8 = jsonObject4.getJSONObject("game"); //game, dentro del personaje
+                    jsonObject9 = jsonObject4.getJSONObject("matchAwards"); //matchAwards, dentro del personaje
 
-                hero = new HeroSearch(null, role, numberSkins, eliminations, eliminationsPF, damageAVG, gamesWon, goldenMedals,
-                        timePlayed, false, true, true, url);
+                    int eliminations = (int) jsonObject5.get("eliminations");
+                    double eliminationsPF = (double) jsonObject7.get("eliminationsPerLife");
+                    double damageAVG = (double) jsonObject7.get("allDamageDoneAvgPer10Min");
+                    int gamesWon = (int) jsonObject8.get("gamesWon");
+                    int goldenMedals = (int) jsonObject9.get("medalsGold");
+                    String timePlayed = (String) jsonObject8.get("timePlayed");
+
+                    hero = new HeroSearch(portraitURL, role, numberSkins, eliminations, eliminationsPF, damageAVG, gamesWon, goldenMedals,
+                            timePlayed, false, true, true, url);
+
+                }
 
             }
             return hero;

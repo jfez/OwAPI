@@ -143,13 +143,21 @@ public class Presenter {
     }
 
     public void request() {
-        if (heroesActivated){
-            view.changeActivity(selectedPlatform, selectedCountry, battletag, selectedHero);
+        if (battletag.equals("")){
+            view.noBattletag();
         }
 
         else{
-            view.changeActivity(selectedPlatform, selectedCountry, battletag, null);
+            if (heroesActivated){
+                view.changeActivity(selectedPlatform, selectedCountry, battletag, selectedHero);
+            }
+
+            else{
+                view.changeActivity(selectedPlatform, selectedCountry, battletag, null);
+            }
         }
+
+
     }
 
     public void onBattletagChange(String s) {

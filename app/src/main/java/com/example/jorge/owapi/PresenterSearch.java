@@ -75,7 +75,20 @@ public class PresenterSearch {
 
     private void onHeroisAvailable(HeroSearch response) {
 
-        viewSearch.showHero(response);
+        if(!response.existsProfile){
+            viewSearch.showPlayerNotFound();
+        }
+
+        else {
+
+            if(response.privateProfile){
+                viewSearch.showPrivateProfile();
+            }
+
+            else{
+                viewSearch.showHero(response);
+            }
+        }
 
     }
 

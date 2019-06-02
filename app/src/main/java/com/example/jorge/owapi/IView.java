@@ -10,4 +10,6 @@ public interface IView {
     void enableSearch(boolean enableButton);
 
     void changeActivity(Platform selectedPlatform, Country selectedCountry, String battletag, Hero selectedHero);
+
+    void noBattletag();
 }
