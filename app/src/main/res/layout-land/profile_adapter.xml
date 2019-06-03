@@ -9,23 +9,23 @@
         android:id="@+id/levelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Level"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
+        app:layout_constraintHorizontal_bias="0.279"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagenPerfil" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/levelInt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginLeft="156dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginLeft="144dp"
         android:textSize="30sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/levelText"
         app:layout_constraintStart_toEndOf="@+id/levelText"
@@ -42,7 +42,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintHorizontal_bias="0.323"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/levelText" />
 
@@ -50,8 +50,8 @@
         android:id="@+id/gamesWonInt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginLeft="84dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
         android:textSize="30sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/gamesWonText"
         app:layout_constraintStart_toEndOf="@+id/gamesWonText"
@@ -69,7 +69,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintHorizontal_bias="0.286"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gamesWonText" />
 
@@ -77,8 +77,8 @@
         android:id="@+id/ratingInt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="142dp"
-        android:layout_marginLeft="142dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginLeft="132dp"
         android:textSize="30sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/ratingText"
         app:layout_constraintStart_toEndOf="@+id/ratingText"
@@ -87,7 +87,7 @@
     <TextView
         android:id="@+id/cardsText"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -95,7 +95,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.217"
+        app:layout_constraintHorizontal_bias="0.366"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingText" />
 
@@ -103,8 +103,8 @@
         android:id="@+id/cardsInt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:textSize="30sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/cardsText"
         app:layout_constraintStart_toEndOf="@+id/cardsText"
@@ -121,7 +121,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintHorizontal_bias="0.291"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardsText" />
 
@@ -129,8 +129,8 @@
         android:id="@+id/medalsInt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="134dp"
-        android:layout_marginLeft="134dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginLeft="124dp"
         android:textSize="30sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/medalsText"
         app:layout_constraintStart_toEndOf="@+id/medalsText"
@@ -143,11 +143,13 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="20dp"
         android:text="Golden Medals"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.191"
+        app:layout_constraintHorizontal_bias="0.348"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medalsText" />
 
@@ -155,8 +157,8 @@
         android:id="@+id/goldenMedalsInt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="54dp"
-        android:layout_marginLeft="54dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
         android:textSize="30sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/goldenMedalsText"
         app:layout_constraintStart_toEndOf="@+id/goldenMedalsText"
@@ -164,16 +166,18 @@
 
     <ImageView
         android:id="@+id/imagenPerfil"
-        android:layout_width="184dp"
-        android:layout_height="148dp"
+        android:layout_width="118dp"
+        android:layout_height="116dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.017"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars[2]" />
+
 
 </android.support.constraint.ConstraintLayout>

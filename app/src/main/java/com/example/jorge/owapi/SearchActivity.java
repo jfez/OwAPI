@@ -163,8 +163,8 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                        
+                        finish();
                     }
                 });
                 builder.setNegativeButton("WHERE?", new DialogInterface.OnClickListener() {

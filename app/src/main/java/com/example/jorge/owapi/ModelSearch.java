@@ -297,15 +297,91 @@ public class ModelSearch{
                     jsonObject8 = jsonObject4.getJSONObject("game"); //game, dentro del personaje
                     jsonObject9 = jsonObject4.getJSONObject("matchAwards"); //matchAwards, dentro del personaje
 
-                    int eliminations = (int) jsonObject5.get("eliminations");
-                    double eliminationsPF = (double) jsonObject7.get("eliminationsPerLife");
-                    double damageAVG = (double) jsonObject7.get("allDamageDoneAvgPer10Min");
-                    int gamesWon = (int) jsonObject8.get("gamesWon");
-                    int goldenMedals = (int) jsonObject9.get("medalsGold");
-                    String timePlayed = (String) jsonObject8.get("timePlayed");
+                    int eliminations;
+                    double eliminationsPF;
+                    double damageAVG;
+                    int gamesWon;
+                    int goldenMedals;
+                    String timePlayed;
+
+
+                    //try catch para todos porque pueden no estar en el json
+
+                    try{
+                        eliminations = (int) jsonObject5.get("eliminations");
+                    }
+
+                    catch (Exception e){
+                        eliminations = 0;
+                    }
+
+                    try{
+                        eliminationsPF = (double) jsonObject7.get("eliminationsPerLife");
+
+                    }
+
+                    catch (Exception e){
+                        try{
+                            int eliminationsPFInt = (int) jsonObject7.get("eliminationsPerLife");
+                            eliminationsPF = (double) eliminationsPFInt;
+                        }
+
+                        catch (Exception e1){
+                            eliminationsPF = 0.0;
+                        }
+
+
+                    }
+
+                    try{
+                        damageAVG = (double) jsonObject7.get("allDamageDoneAvgPer10Min");
+
+                    }
+
+                    catch (Exception e){
+                        try{
+                            int damageAVGInt = (int) jsonObject7.get("allDamageDoneAvgPer10Min");
+                            damageAVG = (double) damageAVGInt;
+                        }
+
+                        catch (Exception e1){
+                            damageAVG = 0.0;
+                        }
+
+                    }
+
+                    try{
+                        gamesWon = (int) jsonObject8.get("gamesWon");
+                    }
+
+                    catch (Exception e){
+                        gamesWon = 0;
+                    }
+
+                    try{
+                        goldenMedals = (int) jsonObject9.get("medalsGold");
+                    }
+
+                    catch (Exception e){
+                        goldenMedals = 0;
+                    }
+
+                    try{
+                        timePlayed = (String) jsonObject8.get("timePlayed");
+                    }
+
+                    catch (Exception e){
+                        timePlayed = "00:00";
+                    }
+
+
+                    //gamesWon = (int) jsonObject8.get("gamesWon");   //falla para moira con xavi
+                    //goldenMedals = (int) jsonObject9.get("medalsGold"); //falla para brigitte con xavi
+                    //timePlayed = (String) jsonObject8.get("timePlayed");
 
                     hero = new HeroSearch(portraitURL, role, numberSkins, eliminations, eliminationsPF, damageAVG, gamesWon, goldenMedals,
                             timePlayed, false, true, true, url);
+
 
                 }
 
