@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
     private List<ProfileSearch> listaPerfil = new ArrayList<>();
 
     private ProgressBar progressBar;
+    private TextView privateProfileText;
 
     private Platform platform;
     private Country country;
@@ -32,6 +34,7 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
     private Hero hero;
 
     private ActionBar actionBar;
+
 
     private PresenterSearch presenterSearch;
 
@@ -55,9 +58,11 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
 
         listView = findViewById(R.id.search);
         progressBar = findViewById(R.id.progressBar);
+        privateProfileText = findViewById(R.id.empty_list_item);
 
         listView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
+        privateProfileText.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
 
@@ -154,16 +159,17 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
     }
 
     @Override
-    public void showPrivateProfile() {
+    public void showPrivateProfile(Object profileSearch, Object heroSearch) {
         progressBar.setVisibility(View.GONE);
+        privateProfileText.setVisibility(View.VISIBLE);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("PROFILES ARE PRIVATE BY DEFAULT")
                 .setMessage("Modify this setting in Overwatch under Options-Social")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        
+
                         finish();
                     }
                 });
@@ -179,7 +185,28 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
                     }
                 });
         AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show();*/
+
+        if (heroSearch == null){
+            PrivateProfileDialogFragment privateProfileDialogFragment = new PrivateProfileDialogFragment();
+            Bundle args = new Bundle();
+            ProfileSearch profileSearch1 = (ProfileSearch) profileSearch;
+            args.putParcelable("ProfileSearch", profileSearch1);
+            privateProfileDialogFragment.setArguments(args);
+            privateProfileDialogFragment.show(getSupportFragmentManager(), "DF");
+        }
+
+        else{
+            PrivateProfileDialogFragment privateProfileDialogFragment = new PrivateProfileDialogFragment();
+            Bundle args = new Bundle();
+            HeroSearch heroSearch1 = (HeroSearch) heroSearch;
+            args.putParcelable("HeroSearch", heroSearch1);
+            privateProfileDialogFragment.setArguments(args);
+            privateProfileDialogFragment.show(getSupportFragmentManager(), "DF");
+
+        }
+
+
 
 
     }

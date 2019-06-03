@@ -9,7 +9,7 @@ interface IViewSearch {
 
     void showPlayerNotFound();
 
-    void showPrivateProfile();
+    void showPrivateProfile(Object profileSearch, Object heroSearch);
 
     void showNotImplemented();
 }

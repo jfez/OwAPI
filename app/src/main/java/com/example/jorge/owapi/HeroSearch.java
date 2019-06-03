@@ -18,9 +18,10 @@ public class HeroSearch implements Parcelable {
     public boolean existsProfile;
     public boolean implemented;
     public String heroUrl;
+    public String battletag;
 
     public HeroSearch(String portraitURL, String role, int numberSkins, int eliminations, double eliminationsPF, double damageAVG, int gamesWon, int goldenMedals, String timePlayed,
-                      boolean privateProfile, boolean existsProfile, boolean implemented, String heroUrl) {
+                      boolean privateProfile, boolean existsProfile, boolean implemented, String heroUrl, String battletag) {
         this.portraitURL = portraitURL;
         this.role = role;
         this.numberSkins = numberSkins;
@@ -34,6 +35,7 @@ public class HeroSearch implements Parcelable {
         this.existsProfile = existsProfile;
         this.implemented = implemented;
         this.heroUrl = heroUrl;
+        this.battletag = battletag;
 
     }
 
@@ -52,6 +54,7 @@ public class HeroSearch implements Parcelable {
         existsProfile = in.readByte() != 0;
         implemented = in.readByte() != 0;
         heroUrl = in.readString();
+        battletag = in.readString();
     }
 
     @Override
@@ -69,6 +72,7 @@ public class HeroSearch implements Parcelable {
         dest.writeByte((byte) (existsProfile ? 1 : 0));
         dest.writeByte((byte) (implemented ? 1 : 0));
         dest.writeString(heroUrl);
+        dest.writeString(battletag);
     }
 
     @Override

@@ -82,7 +82,7 @@ public class PresenterSearch {
         else {
 
             if(response.privateProfile){
-                viewSearch.showPrivateProfile();
+                viewSearch.showPrivateProfile(null, response);
             }
 
             else{
@@ -100,7 +100,7 @@ public class PresenterSearch {
         else {
 
             if(response.privateProfile){
-                viewSearch.showPrivateProfile();
+                viewSearch.showPrivateProfile(response, null);
             }
 
             else{

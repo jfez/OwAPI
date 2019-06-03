@@ -49,7 +49,7 @@ public class ModelSearch{
     }
 
 
-    public void getProfile(final Platform platform, Country country, String battletag, final Response.Listener<ProfileSearch> listener, final Response.ErrorListener errorListener) {
+    public void getProfile(final Platform platform, Country country, final String battletag, final Response.Listener<ProfileSearch> listener, final Response.ErrorListener errorListener) {
 
         String regionOW = "";
 
@@ -75,7 +75,7 @@ public class ModelSearch{
         JsonRequest request = new JsonObjectRequest(Request.Method.GET, urlProfile1 + platform.getCode() + "/" + regionOW + "/" + newBattletag + urlProfile2, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                profileSearch = parseJSONProfile(response, url);
+                profileSearch = parseJSONProfile(response, url, battletag);
 
                 if (profileSearch != null){
                     listener.onResponse(profileSearch);
@@ -109,7 +109,7 @@ public class ModelSearch{
 
     //el layout tendrá lugar para las stats (text views) y también para la imagen (del perfil o del heroe) ImageView
 
-    private ProfileSearch parseJSONProfile(JSONObject response, String url) {
+    private ProfileSearch parseJSONProfile(JSONObject response, String url, String battletag) {
 
         ProfileSearch profile = null;
 
@@ -121,7 +121,7 @@ public class ModelSearch{
 
 
             if (index == 1){
-                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, false, false, true, null);
+                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, false, false, true, null, battletag);
                 return profile;
             }
 
@@ -129,7 +129,7 @@ public class ModelSearch{
 
             if (profilePrivate){
                 //diálogo y tal vez inicializar profile para que no piense que el jugador no existe
-                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, true, true, true, null);
+                profile = new ProfileSearch(-1, null, -1, -1, -1, -1, -1, true, true, true, null, battletag);
             }
 
             else{
@@ -151,7 +151,7 @@ public class ModelSearch{
                 int goldenMedals = (int) jsonObject2.get("medalsGold");
 
 
-                profile = new ProfileSearch(gamesWon, iconURL, level, rating, cards, medals, goldenMedals, false, true, true, url);
+                profile = new ProfileSearch(gamesWon, iconURL, level, rating, cards, medals, goldenMedals, false, true, true, url, battletag);
 
             }
             return profile;
@@ -163,7 +163,7 @@ public class ModelSearch{
 
 
 
-    public void getHero(Platform platform, Country country, String battletag, final Hero hero, final Response.Listener<HeroSearch> listener, final Response.ErrorListener errorListener) {
+    public void getHero(Platform platform, Country country, final String battletag, final Hero hero, final Response.Listener<HeroSearch> listener, final Response.ErrorListener errorListener) {
         String regionOW = "";
 
         switch (country.region){
@@ -218,7 +218,7 @@ public class ModelSearch{
             //también pasarle el nombre ya modificado para la URL (puesto con minúsculas o guiones o lo que haga falta)
             @Override
             public void onResponse(JSONObject response) {
-                heroSearch = parseJSONHero(response, hero.role, hero.numberSkins, url, heroNameLowerCase, finalHeroNameLowerCaseModified);
+                heroSearch = parseJSONHero(response, hero.role, hero.numberSkins, url, heroNameLowerCase, finalHeroNameLowerCaseModified, battletag);
 
                 if (heroSearch != null){
                     listener.onResponse(heroSearch);
@@ -238,7 +238,7 @@ public class ModelSearch{
     }
 
     //el HeroSearch tendrá tambien el rol y skins
-    private HeroSearch parseJSONHero(JSONObject response, String role, int numberSkins, String url, String heroNameLoweCase, String heroNameLowerCaseModified) {
+    private HeroSearch parseJSONHero(JSONObject response, String role, int numberSkins, String url, String heroNameLoweCase, String heroNameLowerCaseModified, String battletag) {
 
         HeroSearch hero = null;
 
@@ -258,7 +258,7 @@ public class ModelSearch{
 
             if (index == 1){
                 hero = new HeroSearch(null, null, -1, -1, -1, -1, -1, -1,
-                        null, false, false, true, null);
+                        null, false, false, true, null, battletag);
                 return hero;
             }
 
@@ -267,7 +267,7 @@ public class ModelSearch{
             if (profilePrivate){
                 //diálogo y tal vez inicializar profile para que no piense que el jugador no existe
                 hero = new HeroSearch(null, null, -1, -1, -1, -1, -1, -1,
-                        null, true, true, true, null);
+                        null, true, true, true, null, battletag);
             }
 
             else{
@@ -286,7 +286,7 @@ public class ModelSearch{
 
                 if (jsonObject3.length() == 0){
                     hero = new HeroSearch(portraitURL, role, numberSkins, 0, 0, 0, 0, 0,
-                            "00:00", false, true, true, url);
+                            "00:00", false, true, true, url, battletag);
                 }
 
                 else{
@@ -380,7 +380,7 @@ public class ModelSearch{
                     //timePlayed = (String) jsonObject8.get("timePlayed");
 
                     hero = new HeroSearch(portraitURL, role, numberSkins, eliminations, eliminationsPF, damageAVG, gamesWon, goldenMedals,
-                            timePlayed, false, true, true, url);
+                            timePlayed, false, true, true, url, battletag);
 
 
                 }
