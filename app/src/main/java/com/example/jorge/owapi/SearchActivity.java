@@ -38,6 +38,10 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
 
     private PresenterSearch presenterSearch;
 
+    private boolean dialogShowed;
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -51,8 +55,20 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            dialogShowed = savedInstanceState.getBoolean("dialogShowed");
+        }
+
+        else{
+            dialogShowed = false;
+        }
+
         setContentView(R.layout.activity_search);
+
 
         actionBar = getSupportActionBar();
 
@@ -101,6 +117,13 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
             }
         });*/
 
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("dialogShowed", true);
+        super.onSaveInstanceState(outState);
 
     }
 
@@ -163,57 +186,36 @@ public class SearchActivity extends AppCompatActivity implements IViewSearch  {
         progressBar.setVisibility(View.GONE);
         privateProfileText.setVisibility(View.VISIBLE);
 
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("PROFILES ARE PRIVATE BY DEFAULT")
-                .setMessage("Modify this setting in Overwatch under Options-Social")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if (!dialogShowed){
+            if (heroSearch == null){
+                PrivateProfileDialogFragment privateProfileDialogFragment = new PrivateProfileDialogFragment();
+                Bundle args = new Bundle();
+                ProfileSearch profileSearch1 = (ProfileSearch) profileSearch;
+                args.putParcelable("ProfileSearch", profileSearch1);
+                privateProfileDialogFragment.setArguments(args);
+                privateProfileDialogFragment.show(getSupportFragmentManager(), "DF");
+            }
 
-                        finish();
-                    }
-                });
-                builder.setNegativeButton("WHERE?", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            else{
+                PrivateProfileDialogFragment privateProfileDialogFragment = new PrivateProfileDialogFragment();
+                Bundle args = new Bundle();
+                HeroSearch heroSearch1 = (HeroSearch) heroSearch;
+                args.putParcelable("HeroSearch", heroSearch1);
+                privateProfileDialogFragment.setArguments(args);
+                privateProfileDialogFragment.show(getSupportFragmentManager(), "DF");
 
-                        Uri url = Uri.parse("https://fotos.subefotos.com/83cd55df301804890b0c58cdade2ad18o.png");
-                        Intent intent = new Intent(Intent.ACTION_VIEW, url);
-                        startActivity(intent);
-
-                        finish();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();*/
-
-        if (heroSearch == null){
-            PrivateProfileDialogFragment privateProfileDialogFragment = new PrivateProfileDialogFragment();
-            Bundle args = new Bundle();
-            ProfileSearch profileSearch1 = (ProfileSearch) profileSearch;
-            args.putParcelable("ProfileSearch", profileSearch1);
-            privateProfileDialogFragment.setArguments(args);
-            privateProfileDialogFragment.show(getSupportFragmentManager(), "DF");
-        }
-
-        else{
-            PrivateProfileDialogFragment privateProfileDialogFragment = new PrivateProfileDialogFragment();
-            Bundle args = new Bundle();
-            HeroSearch heroSearch1 = (HeroSearch) heroSearch;
-            args.putParcelable("HeroSearch", heroSearch1);
-            privateProfileDialogFragment.setArguments(args);
-            privateProfileDialogFragment.show(getSupportFragmentManager(), "DF");
+            }
 
         }
-
-
 
 
     }
 
     @Override
     public void showNotImplemented() {
-        Toast.makeText(getApplicationContext()," PS4 & XBOX ARE NOT IMPLEMENTED BY THE API", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"PS4 & XBOX ARE NOT IMPLEMENTED BY THE API", Toast.LENGTH_LONG).show();
         finish();
     }
+
+
 }
