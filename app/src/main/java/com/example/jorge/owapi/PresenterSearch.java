@@ -67,11 +67,7 @@ public class PresenterSearch {
 
     }
 
-    //solo devolverá 1 objeto HeroSearch o ProfileSearch, no una lista
-    //si ese objeto devuelto, es null, será que el response.length() es 1 y devolvemos null indicando que el jugador no existe
-    //habrá que comprobar la response aquí
-    //si la response no es null, show normal y corriente
-    //si la response es null, showPlayerNotFound
+
 
     private void onHeroisAvailable(HeroSearch response) {
 

@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements IView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
         changeProfileHeroesToggle = findViewById(R.id.buttonHerAcc);
         heroesAuto = findViewById(R.id.autoHeroes);
         platformSpin = findViewById(R.id.spinnerPlat);

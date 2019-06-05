@@ -3,6 +3,7 @@ package com.example.jorge.owapi;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -91,23 +92,19 @@ public class ModelSearch{
 
             }
         }, errorListener);
+
+        //Set a retry policy in case of SocketTimeout & ConnectionTimeout Exceptions.
+        //Volley does retry for you if you have specified the policy.
+        //Timeout of 10 seconds
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(request);
     }
 
 
-    //mirar el gasPrices
-    //si response.length() es 1, significa que el jugador no existe
-    //OJO PORQUE SI DEVUELVE NULL, PARECE QUE LO TOMA COMO NETWORK ERROR, HAY QUE INVESTIGAR ESTO
-    //TAL VEZ HAY QUE CREAR UN PROFILE/HERO QUE TENGA UN PARÁMETRO ESPECIAL PARA EN EL PRESENTER DETECTAR SI ES UN JUGADOR VÁLIDO O NO
-    //si no es 1, el jugador existe; ahora hay que comprobar si tiene el perfil abierto o cerrado
-    //lo primer que miramos entonces es JSONArray jsonArray = response.getJSONArray("private");
-    //si es true, no buscamos nada más, solo mostramos el diálogo
-    //si es false, entonces sí que seguimos buscando en los otros jsonArray para coger las demás stats
-    //nosotros no necesitamos ningún bucle for ni tampoco una lista porque solo devolvemos 1 objeto HeroSearch o ProfileSearch
-    //así que lo que ha de devolver estos métodos es un objeto HeroSearch o ProfileSearch
-    //en el parseJSONHero IGUAL
 
-    //el layout tendrá lugar para las stats (text views) y también para la imagen (del perfil o del heroe) ImageView
 
     private ProfileSearch parseJSONProfile(JSONObject response, String url, String battletag) {
 
@@ -234,6 +231,14 @@ public class ModelSearch{
 
             }
         }, errorListener);
+
+        //Set a retry policy in case of SocketTimeout & ConnectionTimeout Exceptions.
+        //Volley does retry for you if you have specified the policy.
+        //Timeout of 10 seconds
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(request);
     }
 
