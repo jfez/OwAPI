@@ -195,7 +195,7 @@ public class ModelSearch{
                 break;
 
             case "wrecking-ball":
-                heroNameLowerCaseModified = "wreckingball";
+                heroNameLowerCaseModified = "wreckingBall";
                 break;
 
         }
